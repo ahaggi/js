@@ -1,0 +1,18 @@
+*/package-lock.json
+
+# Dependency directories
+*/node_modules/
+*/jspm_packages/
+
+# Typescript v1 declaration files
+*/typings/
+
+# Optional npm cache directory
+*/.npm
+
+# dotenv environment variables file
+*/.env
+
+# Parcel related files
+*/dist/
+*/.cache/
