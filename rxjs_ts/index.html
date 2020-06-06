@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <style>
+        body {
+            font-family: 'Arial';
+            background: #ececec;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 20px;
+        }
+
+        li {
+            padding: 20px;
+            background: white;
+            margin-bottom: 5px;
+            text-align: center;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <!--
+         <div> 
+        <input type="radio" name="q" value="1" onclick="checked(1)"  > Observable<br>
+        <input type="radio" name="q" value="2"   > Observable<br>
+        <input type="radio" name="q" value="3"  > Observable<br>
+    </div>
+-->
+
+    <ul id="output"></ul>
+    <!-- OBS filen inn i src heter code.ts ,,, men i webpack.config.js  output.filename: 'bundle.js',
+ -->
+    <script src="/bundle.js"></script>
+</body>
+
+</html>

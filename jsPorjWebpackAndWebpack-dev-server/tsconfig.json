@@ -1,0 +1,19 @@
+// To compile all the ts files to js
+{
+  "compilerOptions": {
+    "module": "es6",
+    "target": "es6",
+    "sourceMap": true, // when we debug, we can see an error in typescript file not the compiled js file.
+    "outDir": "./src/"
+  },
+  "exclude": [
+    "node_modules"
+  ],
+  "include": [ //Which files in our project will be compiled from TypeScript to Javascript, this property will tell us.
+    "src/*"
+  ],
+
+
+
+  "compileOnSave": true  //   When we save our TypeScript file then, It will immediately transpile TypeScript file to Javascript file.
+}

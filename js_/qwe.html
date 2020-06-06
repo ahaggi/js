@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script lang="javascript" src="https://unpkg.com/xlsx@0.13.5/dist/xlsx.full.min.js"></script>
+</head>
+
+<body>
+    <input type="file" id="my_file_input" />
+    <div id='my_file_output'></div>
+
+
+    <script>
+
+        
+// D:\prosjekter\ProjExpress\Basics\Bok1_tilMai_OO.xlsx
+// D:\prosjekter\ProjExpress\Basics\Bok1_tilMai_OO.xlsx
+// D:\prosjekter\ProjExpress\Basics\Bok1_tilMai_OO.xlsx
+// D:\prosjekter\ProjExpress\Basics\Bok1_tilMai_OO.xlsx
+// D:\prosjekter\ProjExpress\Basics\Bok1_tilMai_OO.xlsx
+
+
+        read = (e) => { //D:\prosjekter\ProjExpress\Basics\Bok1_tilMai_OO.xlsx
+            let file = e.target.result;
+            let workbook = XLSX.read(file, { type: 'binary' });
+
+            let _json = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]])
+            console.log(_json)
+
+            let sheet = workbook.Sheets[workbook.SheetNames[1]]
+
+            // let cells = Object.keys(sheet).filter((key) => key.match(/^[A-F]/))
+            // console.log(cells)
+
+
+            data = {
+                Handling: []
+            }
+            _handling = { //serial
+                id: "",
+                dato: 00, // A1
+                butikk: "", //B1
+                varer: [],
+                summen: 0 //G15
+            }
+
+            _vare = {
+                id: "",     //serial     
+                produkt: {},
+                antall: 0, //E2
+                vekt: 0,  //D2
+                pris: 0,  //C2
+                totalPris: 0 //G2
+            }
+
+            _produkt = {
+                id: "", //serial     
+                navn: "",  //B2
+                næringsinnhold: [],
+                nettovekt: 0,
+                stoerelse: 0 //F2
+            }
+
+
+            for (let index = 0; sheet["A" .concat( index * 15 + 1 ) ]; index++) {
+                handling = JSON.parse(JSON.stringify(_handling));
+                for (let cell_ind = 2; cell_ind < 14; cell_ind++) {
+                    vare = JSON.parse(JSON.stringify(_vare));
+                    produkt = JSON.parse(JSON.stringify(_produkt));
+
+                    let i = ((index*15) + cell_ind)
+                    if (! sheet["B" + i] ) continue; 
+
+                    produkt.navn = sheet["B" + i] ? sheet["B" + i].v : null
+                    produkt.stoerelse = sheet["F" + i] ? sheet["F" + i].v : null
+
+                    vare.produkt = produkt
+                    vare.antall = sheet["E" + i] ? sheet["E" + i].v : 1
+                    vare.vekt = sheet["D" + i] ? sheet["D" + i].v : null
+                    vare.pris = sheet["C" + i] ? sheet["C" + i].v : null
+                    vare.totalPris = sheet["G" + i] ? sheet["G" + i].v : null
+
+                    handling.varer.push(vare)
+                    
+                }
+                let i =( index * 15 ) + 1
+                handling.dato = sheet["A"  + i] ? sheet["A" + i].w : null
+                handling.butikk = sheet["B" + i] ? sheet["B" + i].v : null
+                handling.summen = sheet["G".concat(i+14)] ? sheet["G".concat(i+14)].v : null
+                data[index] = handling
+            }
+            console.log(data)
+            console.log(sheet)
+        }
+
+
+
+
+        filePicked = (e) => {
+
+            var oFile = e.target.files[0];
+            // var sFilename = oFile.name;
+            // Create A File Reader HTML5
+            var reader = new FileReader();
+
+            reader.addEventListener('load', read, false);
+            reader.readAsBinaryString(oFile);
+        }
+
+
+
+
+
+
+
+
+        oFileIn = document.getElementById('my_file_input');
+        if (oFileIn.addEventListener) {
+            oFileIn.addEventListener('change', filePicked, false);
+        }
+
+
+    </script>
+</body>
+
+</html>

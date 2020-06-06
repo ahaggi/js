@@ -1,0 +1,29 @@
+
+What is Higher-Order Observable Mapping?
+In higher-order mapping, instead of mapping a plain value like 1 to another value like 10, we are going to map a value into an Observable! 
+
+Why Higher-Order Observables?
+
+Let's say we have a:
+Form which provides an outer Observable that emits the latest form values as the user interacts with the form, 
+and want to save at least some of these values as they get emitted over time, , which avoids losing the whole 
+form data due to an accidental reload.
+
+In order to implement the form draft save functionality, we need to take the form value, and then create an inner
+HTTP observable that performs a backend save, and then subscribe to it.
+
+Imagine what happens if multiple form values are emitted by the outer observable in quick succession and the save operation 
+takes some time to complete before the inner observable emits 
+and
+there is no strong guarantee that the backend will handle the saves sequentially and that the last valid form value is indeed the one stored on the backend.
+    * should we wait for one save request to complete before doing another save?     "Concat" Strategy
+    * should we do multiple saves in parallel?     "Merge" Strategy
+    * should we cancel an ongoing save and start a new one?     "Switch" Strategy
+    * should we ignore new save attempts while one is already ongoing?  "Exhaust" strategy
+
+
+There are 4 "Flattening Strategies"
+    "Concat" Strategy —Queuing up every new Observable, and subscribing to a new observable only when the last observable completed.
+    "Merge" Strategy — deciding not to do anything, basically, we just keep subscribing to every new observable that we return from the map.
+    "Switch" Strategy — unsubscribing from the last mapped observable, when the new one arrives.
+    "Exhaust" strategy — the "don’t interrupt me" strategy, ignores (and never subscribe to) any new mapped Observable while the current Observable is still emitting values.
